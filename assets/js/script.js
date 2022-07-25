@@ -1,4 +1,4 @@
-var box = document.querySelector(".top-div");
+var box = document.querySelector(".main");
 var topDiv = document.querySelector(".top-div");
 var bottomDiv = document.querySelector(".bottom-div");
 var question = -1;
@@ -7,6 +7,8 @@ var timer = 80;
 var clockStart = true;
 var timeLeft = document.querySelector(".quiz-timer");
 var clock = 0;
+var htmlBody = document.querySelector("body");
+var option = "";
 
 
 var blankQuiz = function() {
@@ -124,8 +126,97 @@ var pickQuestion = function() {
         fourthAnswer: "4. /* this is a comment */"
     };
 
-    thisQuestion = [firstQuestion, secondQuestion, thirdQuestion, firstQuestion, fifthQuestion, sixthQuestion]
+    thisQuestion = [firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQuestion, sixthQuestion]
 
     thisQuestion = thisQuestion(question);
+
+    if(thisQuestion) {
+        return makeQuestion(thisQuestion);
+    } else {
+        clockStart = false;
+        return countdown;
+    }
 }
 
+htmlBody.addEventListener("click", function() {
+    var element = element.target
+    var startButton = document.querySelector(".start-button");
+
+    if(element === startButton) {
+        startQuiz();
+        element = "";
+    }
+    else if(element.className === "submit") {
+        var nameInitials = box.querySelector("input[name = 'initials']").value;
+        return saveInitials(nameInitials);
+    }
+})
+
+var isItRight = function() {
+
+    var extraDiv = document.getElementById("extraDivId");
+    if (extraDiv) {
+        extraDiv.remove();
+    }
+
+    var div = document.createElement("div")
+    div.className = "extraDiv";
+    div.setAttribute('id', 'extraDivId');
+    box.appendChild(div);
+
+    var divTwo = document.createElement("div");
+    divTwo.className = "extraDivTwo"
+    div.appendChild(divTwo);
+
+    var divP = document.createElement("p");
+    divP.className = "quiz-p"
+    divP.innerHTML = option;
+    divTwo.appendChild(divP);
+}
+
+var answerKey = function(element) {
+
+    switch(element.innerHTML) {
+        case "3. Alerts" :
+            option = "Correct!";
+            isItRight();
+            blankQuiz();
+            break;
+        
+        case "4. All of the above":
+            option = "Correct!";
+            isItRight();
+            blankQuiz();
+            break;
+
+        case "4. alert('Hello World')":
+            option = "Correct!";
+            isItRight();
+            blankQuiz();
+            break;
+
+        case "2. script":
+            option = "Correct!";
+            isItRight();
+            blankQuiz();
+            break;
+
+        case "3. if(i == 5){}":
+            option = "Correct!";
+            isItRight();
+            blankQuiz();
+            break;
+
+        case "3. //this is a comment":
+            option = "Correct!";
+            isItRight();
+            blankQuiz();
+            break;
+            default:
+                option = "Wrong!";
+                isItRight();
+                timer -= 10;
+                blankQuiz();
+                break;
+    }
+}
