@@ -15,6 +15,7 @@ var blankQuiz = function() {
     question++;
     topDiv.innerHTML = "";
     bottomDiv.innerHTML = "";
+    pickQuestion();
 }
 
 var startQuiz = function() {
@@ -31,7 +32,7 @@ var countdown = function() {
             timeLeft.innerHTML = "Time Remaining: " + timer;
             timer--;
             clock = timer;
-            randomQuestion();
+            pickQuestion();
         }
         else if (timer > 0 & clockStart) {
             timeLeft.innerHTML = "Time Remaining: " + timer;
@@ -103,11 +104,11 @@ var pickQuestion = function() {
     };
 
     var fourthQuestion = {
-        paragraph: "Inside which HTML element do we put the JavaScript?: ",
-        firstAnswer: "1. js",
-        secondAnswer: "2. script",
-        thirdAnswer: "3. javascript",
-        fourthAnswer: "4. scripting"
+        paragraph: "A very useful tool used during development and debugging for printing content to the debugger is ____ : ",
+        firstAnswer: "1. JavaScript",
+        secondAnswer: "2. console.log",
+        thirdAnswer: "3. terminal/bash",
+        fourthAnswer: "4. for loops"
     };
 
     var fifthQuestion = {
@@ -119,27 +120,27 @@ var pickQuestion = function() {
     };
 
     var sixthQuestion = {
-        paragraph: "How can you add a single comment in JavaScript?: ",
-        firstAnswer: "1. !-- This is a comment --!",
-        secondAnswer: "2. 'this is a comment'",
-        thirdAnswer: "3. //this is a comment",
-        fourthAnswer: "4. /* this is a comment */"
+        paragraph: "Strings must be enclosed within ____ when being assigned to variables : ",
+        firstAnswer: "1. commas",
+        secondAnswer: "2. parenthesis",
+        thirdAnswer: "3. curly brackets",
+        fourthAnswer: "4. quotes"
     };
 
     thisQuestion = [firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQuestion, sixthQuestion]
 
-    thisQuestion = thisQuestion(question);
+    thisQuestion = thisQuestion[question];
 
     if(thisQuestion) {
         return makeQuestion(thisQuestion);
     } else {
         clockStart = false;
-        return countdown;
+        return countdown();
     }
 }
 
 htmlBody.addEventListener("click", function() {
-    var element = element.target
+    var element = event.target
     var startButton = document.querySelector(".start-button");
 
     if(element === startButton) {
@@ -149,6 +150,15 @@ htmlBody.addEventListener("click", function() {
     else if(element.className === "submit") {
         var nameInitials = box.querySelector("input[name = 'initials']").value;
         return saveInitials(nameInitials);
+    }
+    else if(element.className === "question-button") {
+        answerKey(element);
+    }
+    else if(element.className === "high-score-span") {
+        nameInitials = "empty";
+        saveInitials(element);
+    } else {
+        return;
     }
 })
 
@@ -195,7 +205,7 @@ var answerKey = function(element) {
             blankQuiz();
             break;
 
-        case "2. script":
+        case "2. console.log":
             option = "Correct!";
             isItRight();
             blankQuiz();
@@ -207,7 +217,7 @@ var answerKey = function(element) {
             blankQuiz();
             break;
 
-        case "3. //this is a comment":
+        case "3. curly brackets":
             option = "Correct!";
             isItRight();
             blankQuiz();
@@ -220,3 +230,5 @@ var answerKey = function(element) {
                 break;
     }
 }
+
+
